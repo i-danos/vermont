@@ -1,0 +1,3 @@
+vermont-dbg_20210303-0vyatta1_amd64.deb contrib/debug optional
+vermont_20210303-0vyatta1_amd64.buildinfo contrib/net optional
+vermont_20210303-0vyatta1_amd64.deb contrib/net optional

@@ -1,0 +1,2 @@
+misc:Depends=vermont (= ${binary:Version})
+misc:Pre-Depends=

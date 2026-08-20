@@ -1,0 +1,13 @@
+# Automatically added by dh_installdeb/13.24.2
+dpkg-maintscript-helper rm_conffile /etc/logrotate.d/vermont 20170605-0vyatta2 -- "$@"
+# End automatically added section
+# Automatically added by dh_installdeb/13.24.2
+dpkg-maintscript-helper rm_conffile /etc/rsyslog.d/vermont.conf 20170605-0vyatta2 -- "$@"
+# End automatically added section
+# Automatically added by dh_systemd_enable/13.24.2
+if [ "$1" = "purge" ]; then
+	if [ -x "/usr/bin/deb-systemd-helper" ]; then
+		deb-systemd-helper purge 'vermont.service' >/dev/null || true
+	fi
+fi
+# End automatically added section

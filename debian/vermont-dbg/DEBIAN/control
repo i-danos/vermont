@@ -1,0 +1,13 @@
+Package: vermont-dbg
+Source: vermont
+Version: 20210303-0vyatta1
+Architecture: amd64
+Maintainer: Vyatta Support <DL-vyatta-help@att.com>
+Installed-Size: 12600
+Depends: vermont (= 20210303-0vyatta1)
+Section: contrib/debug
+Priority: optional
+Homepage: https://github.com/tumi8/vermont/wiki
+Description: Debugging symbols for vermont
+ Debugging symbols for the vermont package.
+Build-Ids: e4cae0bd33a50918e7bf54764b877e3e54f8ea68
