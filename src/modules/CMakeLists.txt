@@ -96,6 +96,9 @@ ADD_LIBRARY(modules
     ipfix/IpfixPayloadWriter.cpp
     ipfix/IpfixRecordAnonymizer.cpp
     ipfix/NetflowV9Converter.cpp
+    ipfix/RoutingPlane.cpp
+    ipfix/IpfixEnhancerCfg.cpp
+    ipfix/IpfixEnhancer.cpp
     ipfix/aggregator/PacketAggregatorCfg.cpp
     ipfix/aggregator/AggregatorBaseCfg.cpp
     ipfix/aggregator/IpfixAggregatorCfg.cpp

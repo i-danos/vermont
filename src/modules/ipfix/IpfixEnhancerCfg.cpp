@@ -19,6 +19,7 @@
  */
 
 #include "IpfixEnhancerCfg.hpp"
+#include <set>
 
 /*
  * Static array to match supported fields

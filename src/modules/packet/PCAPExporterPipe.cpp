@@ -147,9 +147,10 @@ int PCAPExporterPipe::execCmd(std::string& cmd)
 		close(fd[1]); // close write-end
 		close(child_parent_pipe[0]); // close read-end
 		if (dup2(fd[0], STDIN_FILENO) == -1) {
-			if (write(child_parent_pipe[1], &errno, sizeof(int)) != sizeof(int))
+			if (write(child_parent_pipe[1], &errno, sizeof(int)) != sizeof(int)) {
 				THROWEXCEPTION("dup(fd[0]) failed");
-				exit(1);
+			}
+			exit(1);
 		}
 		if (workingPath != "") {
 			int res = chdir(workingPath.c_str());

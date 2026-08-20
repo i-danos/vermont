@@ -29,7 +29,6 @@
 #include <list>
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/path.hpp"
-#include "boost/progress.hpp"
 
 #include "IpfixReceiver.hpp"
 #include "IpfixPacketProcessor.hpp"

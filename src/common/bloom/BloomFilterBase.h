@@ -146,7 +146,7 @@ class QuintupleKey
 struct HashParams
 {
 	HashParams(size_t l, unsigned startSeed = time(0)) : len(l) {
-		seed = (uint32_t*)calloc(sizeof(uint32_t), len);
+		seed = (uint32_t*)calloc(len, sizeof(uint32_t));
 		srand(startSeed);
 		for(unsigned i=0; i < len; i++) {
 			seed[i] = rand();

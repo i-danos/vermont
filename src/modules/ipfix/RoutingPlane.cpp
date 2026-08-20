@@ -23,6 +23,7 @@
 #include <czmq.h>
 #include <boost/config.hpp>
 #include <cstdint>
+#include <list>
 
 #include "RoutingPlane.hpp"
 #include "common/msg.h"

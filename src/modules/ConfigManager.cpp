@@ -43,6 +43,7 @@
 #include "modules/ipfix/IpfixSamplerCfg.h"
 #include "modules/ipfix/IpfixCsExporterCfg.hpp"
 #include "modules/ipfix/NetflowV9ConverterCfg.hpp"
+#include "modules/ipfix/IpfixEnhancerCfg.hpp"
 #include "modules/ipfix/aggregator/IpfixAggregatorCfg.h"
 #include "modules/ipfix/aggregator/PacketAggregatorCfg.h"
 #include "modules/ipfix/database/IpfixDbReaderCfg.h"
@@ -107,6 +108,7 @@ Cfg* ConfigManager::configModules[] = {
 	new IpfixFlowInspectorExporterCfg(NULL),
 #endif
 	new FlowLenAnalyzerCfg(NULL),
+	new IpfixEnhancerCfg(NULL)
 };
 
 ConfigManager::ConfigManager()

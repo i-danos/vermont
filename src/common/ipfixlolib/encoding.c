@@ -19,6 +19,38 @@
 extern "C" {
 #endif
 
+
+#if defined(__GNUC__) || defined(__clang__) || defined(__INTEL_COMPILER)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+unsigned __int128
+be128toh (unsigned __int128 big_endian_128bits) {
+		union _128_as_64 {
+		    unsigned __int128 v;
+		    uint64_t q[2];
+		} u1, u2;
+		u1.v = big_endian_128bits;
+		u2.q[1] = be64toh(u1.q[0]);
+		u2.q[0] = be64toh(u1.q[1]);
+
+		return u2.v;
+}
+
+unsigned __int128
+h128tobe(unsigned __int128 host_128bits) {
+		union _128_as_64 {
+		    unsigned __int128 v;
+		    uint64_t q[2];
+		} u1, u2;
+		u1.v = host_128bits;
+		u2.q[1] = htobe64(u1.q[0]);
+		u2.q[0] = htobe64(u1.q[1]);
+
+		return u2.v;
+}
+#pragma GCC diagnostic pop
+#endif
+
 /*
  * I took the 64-bit functions from
  * http://komssys.sourceforge.net/html/MNRTPNetTypes_8h-source.html

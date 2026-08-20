@@ -63,7 +63,7 @@ public:
 			if (e->matches("ipAddress")) {
 				ipAddress = e->getContent();
 			} else if (e->matches("vrfName")) {
-#if defined(ENABLE_VRF)
+#if defined(ENABLE_VRF) || defined(ENABLE_ROUTING_DOMAIN)
 				vrfName = e->getContent();
 				if (vrfName.length() == 0)
 					THROWEXCEPTION("Invalid configuration parameter for vrfName"
@@ -71,6 +71,13 @@ public:
 #else
 				THROWEXCEPTION("Invalid configuration parameter: vrfName."
 						" Build with -DENABLE_VRF=ON to enable.");
+#endif
+			} else if (e->matches("vrfId")) {
+#if defined(ENABLE_ROUTING_DOMAIN)
+				// Accept vrfId for backward compatibility but ignore it
+#else
+				THROWEXCEPTION("Invalid configuration parameter: vrfId."
+						" Build with -DENABLE_ROUTING_DOMAIN=ON to enable.");
 #endif
 			} else if (e->matches("authorizedHost")) {
 				authorizedHosts.push_back(e->getContent());

@@ -28,6 +28,25 @@ extern "C" {
 #define VENDOR_SPECIFIC 1
 #define NOT_VENDOR_SPECIFIC 2
 
+#if defined(__linux__)
+#  include <endian.h>
+#elif defined(__FreeBSD__) || defined(__NetBSD__)
+#  include <sys/endian.h>
+#elif defined(__OpenBSD__)
+#  include <sys/types.h>
+#  define be64toh(x) betoh64(x)
+#  define h64tobe(x) htobe64(x)
+#endif
+
+
+#if defined(__GNUC__) || defined(__clang__) || defined(__INTEL_COMPILER)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+unsigned __int128 be128toh(unsigned __int128 big_endian_128bits);
+unsigned __int128 h128tobe(unsigned __int128 host_128bits);
+#pragma GCC diagnostic pop
+#endif
+
 /*
  I took the 64-bit functions from
  http://komssys.sourceforge.net/html/MNRTPNetTypes_8h-source.html

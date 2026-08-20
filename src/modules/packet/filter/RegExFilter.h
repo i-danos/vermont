@@ -28,10 +28,24 @@
 #include <list>
 #include <string>
 #include <string.h>
-#include "common/msg.h"
-#include "PacketProcessor.h"
 #include <sys/types.h>
+#include "common/msg.h"
+/* common/msg.h defines a function-like msg(...) logging macro that
+ * collides with an identifier boost::regex uses internally. common/msg.h
+ * is commonly already pulled in transitively (e.g. via core/Cfg.h) before
+ * this header is reached, so local include reordering alone isn't enough
+ * -- temporarily undefine the macro around the boost include instead. */
+#ifdef msg
+#pragma push_macro("msg")
+#undef msg
+#define VERMONT_MSG_MACRO_PUSHED
+#endif
 #include <boost/regex.hpp>
+#ifdef VERMONT_MSG_MACRO_PUSHED
+#pragma pop_macro("msg")
+#undef VERMONT_MSG_MACRO_PUSHED
+#endif
+#include "PacketProcessor.h"
 
 
 

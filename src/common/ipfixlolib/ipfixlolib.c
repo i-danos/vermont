@@ -53,6 +53,9 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include <inttypes.h>
+#ifdef VRF_MANAGER_ENABLED
+#include <vrf_manager.h>
+#endif
 
 #ifdef SUPPORT_DTLS
 #include "ipfixlolib_dtls_private.h"
@@ -118,7 +121,29 @@ static int init_vrf(int socket, char *vrf_name, char *vrf_log_buffer) {
         if (strlen(vrf_name) == 0)
             return 0; // do not return an error on nothing to do, valid call
 
-#if defined(ENABLE_VRF) && defined(SO_BINDTODEVICE)
+#if defined(ENABLE_ROUTING_DOMAIN) && defined(SO_RTDOMAIN) && defined(VRF_MANAGER_ENABLED)
+        snprintf(vrf_log_buffer, VRF_LOG_LEN, "[%.*s] ", IFNAMSIZ, vrf_name);
+        uint32_t vrf_id = get_vrf_id(vrf_name);
+        if (vrf_id == VRFID_INVALID) {
+                msg(LOG_CRIT, "%scannot find VRF %s",
+                                vrf_log_buffer, vrf_name);
+                close(socket);
+                return -1;
+        }
+        if (setsockopt(socket, SOL_SOCKET, SO_RTDOMAIN, &vrf_id,
+                        sizeof(uint32_t))) {
+                if (errno == ENOPROTOOPT) {
+                        msg(LOG_ERR, "VRF not implemented in local kernel");
+                } else {
+                        msg(LOG_CRIT, "%ssetsockopt VRF %s failed, %s",
+                                        vrf_log_buffer, vrf_name,
+                                        strerror(errno));
+                        close(socket);
+                        return -1;
+                }
+        }
+	return 0;
+#elif defined(ENABLE_VRF) && defined(SO_BINDTODEVICE)
         snprintf(vrf_log_buffer, VRF_LOG_LEN, "[%.*s] ", IFNAMSIZ, vrf_name);
         if (setsockopt(socket, SOL_SOCKET, SO_BINDTODEVICE, vrf_name,
                         strlen(vrf_name))) {
@@ -1363,7 +1388,7 @@ static int ipfix_deinit_template_array(ipfix_exporter *exporter)
 	for(i=0; i< exporter->ipfix_lo_template_maxsize; i++) {
                 // try to free all templates:
 
-	    if (&exporter->template_arr[i] != NULL && exporter->template_arr[i].state != T_UNUSED && ipfix_deinit_template(&(exporter->template_arr[i]) )) {
+	    if (exporter->template_arr[i].state != T_UNUSED && ipfix_deinit_template(&(exporter->template_arr[i]) )) {
                 msg(LOG_ERR, "failed to deinitialize template %i", i);
 	    }
         }
