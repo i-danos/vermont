@@ -1,0 +1,9 @@
+/tmp/
+/.debhelper/
+/files
+/*.substvars
+/*.debhelper.log
+/debhelper-build-stamp
+/autoreconf.*
+/vermont/
+/vermont-dbg/
